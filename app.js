@@ -20,6 +20,10 @@ app.get('/apps', (req, res) => {
         return res.status(200).send(response);
     };
 
+    if(sort && !['Rating', 'App'].includes(sort)) {
+        return res.status(401).send('Strictly \'Rating\' and \'App\' keywords only')
+    }
+
     if(sort && ['Rating', 'App'].includes(sort)) {
         response = response.sort((a, b) => {
             if(a[sort] > b[sort]) {
@@ -36,6 +40,6 @@ app.get('/apps', (req, res) => {
         return res.status(200).send(response);
     };
 
-    res.status(401).send('Bad request');
+    res.status(401).send('All available keywords: \'action\', \'puzzle\', \'strategy\', \'casual\', \'arcade\', \'card\'');
 
 });
