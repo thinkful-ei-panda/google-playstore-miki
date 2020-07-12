@@ -61,7 +61,7 @@ const handleModifyResponseByQueries = () => {
     };
 
     res.json(response);
-}
+};
 
 app.get('/apps', handleModifyResponseByQueries);
 
