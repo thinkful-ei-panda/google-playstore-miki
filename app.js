@@ -10,7 +10,7 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(helmet());
 
-const handleModifyResponseByQueries = () => {
+const handleModifyResponseByQueries = (req, res, next) => {
     // The idea is to modify response as function handles each query
     // This function implements case insensitivity to handle all query formats
     // Sort options have been expanded to include all properties of app object
@@ -27,11 +27,11 @@ const handleModifyResponseByQueries = () => {
     const allPossibleSortQueries = Object.keys(apps[0]).map(query => query.toLowerCase());
     const allPossibleGenresQueries = ['action', 'puzzle', 'strategy', 'casual', 'arcade', 'card'];
 
-    if(sort && !allPossibleSortQueries.includes(sort)) {   
+    if(!allPossibleSortQueries.includes(sort)) {   
         return res.status(401).send('Invalid keyword');
     };
 
-    if(sort && allPossibleSortQueries.includes(sort)) {
+    if(allPossibleSortQueries.includes(sort)) {
         let caseInsensitiveKey;
 
         response.forEach(app => {
@@ -52,11 +52,11 @@ const handleModifyResponseByQueries = () => {
         });
     };
 
-    if(genres && !allPossibleGenresQueries.includes(genres)) {
+    if(!allPossibleGenresQueries.includes(genres)) {
         response = response.filter(app => app.Genres.toLowerCase().includes(genres));
         return res.status(401).send('Acceptable keywords: \'action\', \'puzzle\', \'strategy\', \'casual\', \'arcade\', \'card\'');    };
 
-    if(genres && allPossibleGenresQueries.includes(genres)) {
+    if(allPossibleGenresQueries.includes(genres)) {
         response = response.filter(app => app.Genres.toLowerCase().includes(genres));
     };
 
