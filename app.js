@@ -27,11 +27,9 @@ const handleModifyResponseByQueries = (req, res, next) => {
     const allPossibleSortQueries = Object.keys(apps[0]).map(query => query.toLowerCase());
     const allPossibleGenresQueries = ['action', 'puzzle', 'strategy', 'casual', 'arcade', 'card'];
 
-    if(!allPossibleSortQueries.includes(sort)) {   
+    if(sort && !allPossibleSortQueries.includes(sort)) {   
         return res.status(401).send('Invalid keyword');
-    };
-
-    if(allPossibleSortQueries.includes(sort)) {
+    } else {
         let caseInsensitiveKey;
 
         response.forEach(app => {
@@ -52,11 +50,10 @@ const handleModifyResponseByQueries = (req, res, next) => {
         });
     };
 
-    if(!allPossibleGenresQueries.includes(genres)) {
+    if(genres && !allPossibleGenresQueries.includes(genres)) {
         response = response.filter(app => app.Genres.toLowerCase().includes(genres));
-        return res.status(401).send('Acceptable keywords: \'action\', \'puzzle\', \'strategy\', \'casual\', \'arcade\', \'card\'');    };
-
-    if(allPossibleGenresQueries.includes(genres)) {
+        return res.status(401).send('Acceptable keywords: \'action\', \'puzzle\', \'strategy\', \'casual\', \'arcade\', \'card\'');
+    } else {
         response = response.filter(app => app.Genres.toLowerCase().includes(genres));
     };
 
